@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .question-container {
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .options button {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .result, .score {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>English Quiz</h1>
+    <div id="quiz-container">
+        <!-- Questions will be dynamically added here -->
+    </div>
+    <div id="score-container" class="hidden">
+        <p class="score"></p>
+        <button onclick="restartQuiz()">Restart Quiz</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                sentence: "She ___ to school every day.",
+                options: ["go", "goes", "gone", "going"],
+                correct: "goes"
+            },
+            {
+                sentence: "They ___ football on weekends.",
+                options: ["play", "plays", "playing", "played"],
+                correct: "play"
+            },
+            {
+                sentence: "He ___ early in the morning.",
+                options: ["wake", "wakes", "waking", "woke"],
+                correct: "wakes"
+            },
+            {
+                sentence: "I ___ coffee every day.",
+                options: ["drink", "drinks", "drank", "drinking"],
+                correct: "drink"
+            },
+            {
+                sentence: "We ___ to the park on Sundays.",
+                options: ["go", "going", "gone", "went"],
+                correct: "go"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const quizContainer = document.getElementById("quiz-container");
+        const scoreContainer = document.getElementById("score-container");
+        const scoreElement = document.querySelector(".score");
+
+        function loadQuestion() {
+            quizContainer.innerHTML = ""; // Clear previous content
+            const question = questions[currentQuestionIndex];
+
+            const questionContainer = document.createElement("div");
+            questionContainer.className = "question-container";
+            
+            const sentence = document.createElement("p");
+            sentence.textContent = question.sentence;
+            questionContainer.appendChild(sentence);
+
+            const optionsContainer = document.createElement("div");
+            optionsContainer.className = "options";
+
+            question.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+
+            questionContainer.appendChild(optionsContainer);
+            quizContainer.appendChild(questionContainer);
+        }
+
+        function checkAnswer(selected) {
+            const question = questions[currentQuestionIndex];
+            const result = document.createElement("p");
+            result.className = "result";
+
+            if (selected === question.correct) {
+                result.textContent = "Correct!";
+                result.style.color = "green";
+                score++;
+            } else {
+                result.textContent = `Incorrect! The correct answer is "${question.correct}".`;
+                result.style.color = "red";
+            }
+
+            quizContainer.appendChild(result);
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    loadQuestion();
+                } else {
+                    showScore();
+                }
+            }, 1500);
+        }
+
+        function showScore() {
+            quizContainer.classList.add("hidden");
+            scoreContainer.classList.remove("hidden");
+            scoreElement.textContent = `You scored ${score} out of ${questions.length}!`;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizContainer.classList.remove("hidden");
+            scoreContainer.classList.add("hidden");
+            loadQuestion();
+        }
+
+        // Start the quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
