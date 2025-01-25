@@ -6,36 +6,109 @@
     <title>English Quiz App</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
         }
+        
+        h1 {
+            color: #4CAF50;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        #quiz-container, #score-container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
         .question-container {
             margin-bottom: 20px;
         }
+
         .options {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .options button {
-            margin: 5px;
-            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .result, .score {
-            font-weight: bold;
+
+        .options button:hover {
+            background-color: #45a049;
+        }
+
+        .options button:active {
+            background-color: #388e3c;
+        }
+
+        .result {
+            font-size: 18px;
             margin-top: 20px;
         }
+
+        .result.correct {
+            color: #4CAF50;
+        }
+
+        .result.incorrect {
+            color: #f44336;
+        }
+
+        .score {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+
         .hidden {
             display: none;
+        }
+
+        button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        button:active {
+            background-color: #1565C0;
         }
     </style>
 </head>
 <body>
-    <h1>English Quiz</h1>
     <div id="quiz-container">
-        
+        <h1>English Quiz</h1>
     </div>
     <div id="score-container" class="hidden">
         <p class="score"></p>
@@ -110,11 +183,11 @@
 
             if (selected === question.correct) {
                 result.textContent = "Correct!";
-                result.style.color = "green";
+                result.classList.add("correct");
                 score++;
             } else {
                 result.textContent = `Incorrect! The correct answer is "${question.correct}".`;
-                result.style.color = "red";
+                result.classList.add("incorrect");
             }
 
             quizContainer.appendChild(result);
